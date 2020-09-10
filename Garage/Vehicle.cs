@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
         protected readonly string r_Model;
-        protected readonly string r_VehicleIdNumber;
+        protected readonly string r_LisenceNumber;
         protected float m_PrecentageOfEnergyLeft;
         protected List<Wheel> m_Wheels;
-        Engine m_Engine;
+        protected Engine m_Engine;
 
-        protected Vehicle(string i_Model, string i_VehicleIdNumber, Engine i_Engine)
+        protected Vehicle(string i_Model, string i_LicenseNumber, Engine i_Engine)
         {
+            m_Wheels = new List<Wheel>();
             r_Model = i_Model;
-            r_VehicleIdNumber = i_VehicleIdNumber;
+            r_LisenceNumber = i_LicenseNumber;
             m_PrecentageOfEnergyLeft = 0;
             m_Engine = i_Engine;
         }
@@ -28,11 +31,11 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public string VehicleIdNumber
+        public string LicenseNumber
         {
             get
             {
-                return r_VehicleIdNumber;
+                return r_LisenceNumber;
             }
         }
 
@@ -44,7 +47,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        virtual public List<Wheel> Wheels
+        public List<Wheel> Wheels
         {
             get
             {
@@ -52,7 +55,45 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public abstract void updateProperties(object i_Obj, object i_SecObj);
+        public Engine Engine
+        {
+            get
+            {
+                return m_Engine;
+            }
+
+            set
+            {
+                Engine = value;
+            }
+        }
+
+        public abstract void AddWheels();
+        public abstract List<string> GetMessagesAndParams();
+
+        public void UpdatManufactererOfWheels(string i_NameOfManufacterer)
+        {
+            
+            Wheel wheel;
+            for (int i = 0; i < this.Wheels.Count; i++)
+            {
+                wheel = m_Wheels[i];
+                wheel.Manufacturer = i_NameOfManufacterer;
+                m_Wheels[i] = wheel;
+            }
+        }
+
+
+        public abstract bool CheckAndSetValidProperties(int i_IndexOFInput, string i_InputsFromUser);
+
+
+        public override string ToString()
+        {
+            return string.Format(@"
+Model:{0}
+license number:{1}
+Wheels:", r_Model, r_LisenceNumber) + m_Wheels[0].ToString() + m_Engine.ToString();
+        }
     }
 }
 

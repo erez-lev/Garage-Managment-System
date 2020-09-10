@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace Ex03.GarageLogic
 {
-    public class ManufectureVehicle
+    public struct ManufactureVehicle
     {
         // Enums:
         public enum eVehicleType
         {
-            ElectricBike,
+            ElectricBike = 1,
             Bike,
             ElectricCar,
             Car,
@@ -15,35 +14,42 @@ namespace Ex03.GarageLogic
         }
 
         // Constructors:
-        public static Vehicle CreateVehicle(
-            string i_LicenseNumber, 
-            string i_Model,
-            Engine.eEngineType i_EngineType, 
-            eVehicleType i_VehicleType)
+        public static Vehicle CreateVehicle(string i_LicenseNumber, string i_Model, eVehicleType i_VehicleType)
         {
-            Vehicle vehicleToCreate = null; // Delete "= null"!!
+            Engine engineOfVehicle;
+            Vehicle vehicleToCreate = null; 
 
             switch (i_VehicleType)
             {
                 case eVehicleType.ElectricBike:
-                    vehicleToCreate = new Bike(
-                        i_LicenseNumber, 5, i_Model, "aa", i_LicenseNumber, 0, new List<Wheel>(),
-                        createEngine(i_EngineType, ElectricEngine.k_BikeBatteryTime, GasEngine.eGasType.Octan95) as ElectricEngine);
+                    engineOfVehicle = createEngine(Engine.eEngineType.Electric, ElectricEngine.k_BikeBatteryTime);
+                    vehicleToCreate = new Bike(i_Model, i_LicenseNumber, engineOfVehicle);
                     break;
                 case eVehicleType.Bike:
+                    engineOfVehicle = createEngine(Engine.eEngineType.Gas, GasEngine.k_BikeTank, GasEngine.eGasType.Octan95);
+                    vehicleToCreate = new Bike(i_Model, i_LicenseNumber, engineOfVehicle);
                     break;
                 case eVehicleType.ElectricCar:
+                    engineOfVehicle = createEngine(Engine.eEngineType.Electric, ElectricEngine.k_CarBatteryTime);
+                    vehicleToCreate = new Car(i_Model, i_LicenseNumber, engineOfVehicle);
                     break;
                 case eVehicleType.Car:
+                    engineOfVehicle = createEngine(Engine.eEngineType.Gas, GasEngine.k_CarTank, GasEngine.eGasType.Octan96);
+                    vehicleToCreate = new Car(i_Model, i_LicenseNumber, engineOfVehicle);
                     break;
                 case eVehicleType.Truck:
+                    engineOfVehicle = createEngine(Engine.eEngineType.Gas, GasEngine.k_TruckTank, GasEngine.eGasType.Soler);
+                    vehicleToCreate = new Truck(i_Model, i_LicenseNumber, engineOfVehicle);
                     break;
             }
 
             return vehicleToCreate;
         }
 
-        private static Engine createEngine(Engine.eEngineType i_EngineType, float i_MaxCapacity, GasEngine.eGasType i_GasType)
+        private static Engine createEngine(
+            Engine.eEngineType i_EngineType, 
+            float i_MaxCapacity, 
+            GasEngine.eGasType? i_GasType = null)
         {
             Engine engine = null;
 
@@ -53,7 +59,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                engine = new GasEngine(i_MaxCapacity, i_GasType);
+                engine = new GasEngine(i_MaxCapacity, (GasEngine.eGasType) i_GasType);
             }
             
             return engine;

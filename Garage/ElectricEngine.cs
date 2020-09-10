@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Ex03.GarageLogic
 {
     public sealed class ElectricEngine : Engine
@@ -13,28 +12,13 @@ namespace Ex03.GarageLogic
         {
         }
 
-        // Methods:
-        protected override void FillUpEnergy(float i_EnergyAmountToFill, string i_GasType = null)
-        {
-            hasNoGas(i_GasType);
-            base.FillUpEnergy(i_EnergyAmountToFill, null);
-        }
-
-        private void hasNoGas(string i_GasType)
-        {
-            if (i_GasType != null)
-            {
-                throw new ArgumentException("Electric engine does not use gas. Gas type was ", i_GasType);
-            }
-        }
-
         // Object Overrides:
         public override string ToString()
         {
             return string.Format(
 @"
 Battery Remain Hours: {0}.",
-CurrentCapacityEnergy);
+CurrentAmountOfEnergy);
         }
     }
 }

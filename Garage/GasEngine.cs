@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Ex03.GarageLogic
 {
     public sealed class GasEngine : Engine
@@ -7,7 +6,7 @@ namespace Ex03.GarageLogic
         // Constants:
         public const float k_BikeTank = 5.5f;
         public const float k_CarTank = 50;
-        public const float k_TruckeTank = 105;
+        public const float k_TruckTank = 105;
 
         // Data Members:
         private readonly eGasType r_GasType;
@@ -15,8 +14,7 @@ namespace Ex03.GarageLogic
         // Enums:
         public enum eGasType
         {
-            Octan98 = 0,
-            Octan96,
+            Octan96 = 1,
             Octan95,
             Soler
         }
@@ -38,19 +36,11 @@ namespace Ex03.GarageLogic
         }
 
         // Methods:
-        protected override void FillUpEnergy(float i_EnergyAmountToFill, string i_GasType)
+        public bool ContainSameGasType(eGasType i_GasType)
         {
-            containSameFuelType(i_GasType);
-            base.FillUpEnergy(i_EnergyAmountToFill, i_GasType);
+            return r_GasType == i_GasType;
         }
 
-        private void containSameFuelType(string i_GasType)
-        {
-            if (i_GasType != Enum.GetName(typeof(eGasType), r_GasType))
-            {
-                throw new ArgumentException("Incorrect fuel type, engine's fuel type that was entered is ", i_GasType.ToString());
-            }
-        }
 
         // Object Overrides:
         public override string ToString()
@@ -60,7 +50,7 @@ namespace Ex03.GarageLogic
 Gas Type: {0}.
 Remain Liters of Gas: {1}.",
 GasType,
-CurrentCapacityEnergy);
+CurrentAmountOfEnergy);
         }
     }
 }

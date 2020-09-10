@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 namespace Ex03.GarageLogic
 {
     public abstract class Engine
@@ -12,7 +10,7 @@ namespace Ex03.GarageLogic
         // Enums:
         public enum eEngineType
         {
-            Gas = 0,
+            Gas = 1,
             Electric
         }
 
@@ -24,7 +22,7 @@ namespace Ex03.GarageLogic
         }
 
         // Properties:
-        public float CurrentCapacityEnergy
+        public float CurrentAmountOfEnergy
         {
             get
             {
@@ -45,15 +43,15 @@ namespace Ex03.GarageLogic
         }
 
         // Methods:
-        protected virtual void FillUpEnergy(float i_EnergyAmountToFill, string i_GasType)
+        public virtual void FillUpEnergy(float i_EnergyAmountToFill)
         {
-            if (CurrentCapacityEnergy + i_EnergyAmountToFill < MaxCapacityEnergy)
+            if (CurrentAmountOfEnergy + i_EnergyAmountToFill <= MaxCapacityEnergy)
             {
                 m_CurrentAmountOfEnergy += i_EnergyAmountToFill;
             }
             else
             {
-                throw new ValueOutOfRangeException(i_EnergyAmountToFill);
+                throw new ValueOutOfRangeException(0, MaxCapacityEnergy);
             }
         }
     }
